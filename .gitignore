@@ -2,3 +2,7 @@
 /build
 /.cache
 /bin
+
+*.o
+*.lib
+*.exe

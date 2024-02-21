@@ -1,0 +1,83 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "cmake",
+			"label": "CMake: build",
+			"command": "build",
+			"targets": [
+				"all"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": [],
+			"detail": "CMake template build task"
+		},
+		{
+			"type": "shell",
+			"label": "Compile Library",
+			"command": "clang++",
+			"args": [
+				"-c",
+				"${workspaceFolder}/Library/src/Calculator.cpp",
+				"-I",
+				"${workspaceFolder}/Library/include/",
+				"-o",
+				"${workspaceFolder}/Clang_Build/Calculator.o"
+
+			],
+			"group": "build",
+		},
+		{
+			"type": "shell",
+			"label": "Build Library",
+			"command": "ar",
+			"args": [
+				"-rc",
+				"${workspaceFolder}/Clang_Build/Calculator.lib",
+				"${workspaceFolder}/Clang_Build/Calculator.o"
+
+			],
+			"group": "build",
+		},
+		{
+			"type": "shell",
+			"label": "Compile Application",
+			"command": "clang++",
+			"args": [
+				"-std=c++20",
+				"-c",
+				"${workspaceFolder}/Application/src/main.cpp",
+				"-I",
+				"${workspaceFolder}/Library/include/",
+				"-o",
+				"${workspaceFolder}/Clang_Build/main.o",
+			],
+			"group": "build",
+		},
+		{
+			"type": "shell",
+			"label": "Link Application With Library",
+			"command": "clang++",
+			"args": [
+				"${workspaceFolder}/Clang_Build/main.o",
+				"${workspaceFolder}/Clang_Build/Calculator.lib",
+				"-o",
+				"${workspaceFolder}/Clang_Build/MyApp.exe",
+			],
+			"group": "build",
+		},
+		{
+			"label": "Build Library and Application",
+			"dependsOrder": "sequence",
+			"dependsOn": [
+				"Compile Library", 
+				"Build Library",
+				"Compile Application",
+				"Link Application With Library"
+			]
+		}
+	]
+}
